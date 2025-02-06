@@ -42,7 +42,15 @@ def main(args):
     if args.assign_new_wandb_id:
         logging.info('Assign new wandb_id.')
         api = wandb.Api()
-        old_run = api.run(f'{args.restore_entity_eval}/{project}/{args.eval_wandb_runid}')
+        try:
+            if args.restore_entity_eval and args.eval_wandb_runid:
+                old_run = api.run(f'{args.restore_entity_eval}/{project}/{args.eval_wandb_runid}')
+            else:
+                old_run = None
+        except wandb.errors.CommError:
+            print(f"Warning: Could not find previous wandb run {args.eval_wandb_runid}. Starting fresh.")
+            old_run = None
+
         wandb.init(
             entity=args.entity,
             project=project,
