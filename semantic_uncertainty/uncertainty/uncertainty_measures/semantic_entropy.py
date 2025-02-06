@@ -6,7 +6,6 @@ import logging
 import random
 import numpy as np
 import wandb
-import openai
 import torch
 import torch.nn.functional as F
 
@@ -18,8 +17,6 @@ from uncertainty.utils import utils
 
 random.seed(10)
 
-# Set up OpenAI API credentials
-openai.api_key = os.getenv("OPENAI_API_KEY")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
